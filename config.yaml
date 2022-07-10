@@ -1,8 +1,0 @@
----
-hosts:
-  IP: localhost
-  puerto: 5000
-basedatos:
-  path: database/datos.db
-  consumidor_almacen: consumidor_pan
-  consumidor_almacen_api: MasterFSD
