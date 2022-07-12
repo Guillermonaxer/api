@@ -45,7 +45,7 @@ else:
 
 # Se crea la tabla de la base de datos
 
-@app.route('/almacen/crear-tabla', methods=['POST'])
+@app.route('api/almacen/crear-tabla', methods=['POST'])
 def crear_tabla():
     cur= con.cursor()
     cur.execute('''CREATE TABLE if not exists producto('name','id','description','precio','unidades','stock')''')
@@ -54,7 +54,7 @@ def crear_tabla():
 
 # Se crea el producto en la tabla
 
-@app.route('/almacen/crear-producto', methods=['POST'])
+@app.route('api/almacen/crear-producto', methods=['POST'])
 def crear_producto():
     cur=con.cursor()
     cur.execute("INSERT INTO producto VALUES ('Barra de pan', 1, 'Barra de pan artesana', '1.50€', 3, True)")
@@ -63,7 +63,7 @@ def crear_producto():
 
 # Se crea la ruta para incrementar las unidades del producto
 
-@app.route('/almacen/incrementar-producto', methods=['PUT'])
+@app.route('api/almacen/incrementar-producto', methods=['PUT'])
 def incrementar_producto():
     cur=con.cursor()
     cur.execute("UPDATE producto SET unidades = unidades + 1")
@@ -76,7 +76,7 @@ def incrementar_producto():
 
 # Se crea la ruta para decrementar las unidades del producto
 
-@app.route('/almacen/decrementar-producto', methods=['PUT'])
+@app.route('api/almacen/decrementar-producto', methods=['PUT'])
 def decrementar_producto():
     cur=con.cursor()
     cur.execute("UPDATE producto SET unidades = unidades - 1")
@@ -89,7 +89,7 @@ def decrementar_producto():
 
 # Se crea la ruta para eliminar el producto
     
-@app.route('/almacen/eliminar-producto', methods=['DELETE'])
+@app.route('api/almacen/eliminar-producto', methods=['DELETE'])
 def eliminar_producto():
     cur=con.cursor()
     cur.execute("DROP TABLE producto")
@@ -98,7 +98,7 @@ def eliminar_producto():
 
 # Se crea la ruta para saber el stock del producto
 
-@app.route('/almacen/leer-producto', methods=['GET'])
+@app.route('api/almacen/leer-producto', methods=['GET'])
 def leer_producto():
     cur = con.cursor()
     sentencia = "SELECT * FROM producto;"
