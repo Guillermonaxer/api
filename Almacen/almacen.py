@@ -151,6 +151,21 @@ def leer_producto():
         error='No autorizado'
         return jsonify(error)  
     
+#leemos un id determinado de un producto
+
+@app.route('/api/almacen/leer-producto/<id>', methods=['GET'])
+def leer_producto_determinado(id):
+    key=request.headers.get('key')
+    if solicitar_permisos(key) ==True:
+      cur = con.cursor()
+      sentencia = "SELECT*FROM producto where id="+id
+      cur.execute(sentencia)
+      stock = cur.fetchone()
+    
+      return jsonify(stock)
+    else:
+        error='No autorizado'
+        return jsonify(error) 
 # Se ejecuta la aplicacion
 
 if __name__ == '__main__':
