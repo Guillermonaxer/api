@@ -1,0 +1,587 @@
+openapi: 3.0.2
+info:
+  version: 1.0.0
+  title: Métodos de la API de tienda
+  description: Se describen los métodos y que tipo de recursos nos ofrece en cada ruta de la API de Almacen.
+servers:
+  - url: http://127.0.0.1:5000/api/almacen
+  - url: http://127.0.0.1:5000/api/tienda
+  - url: http://localhost:5000/api/almacen
+  - url: http://localhost:5000/api/tienda
+tags:
+  - name: Tienda
+    description: Se detallan los métodos y recursos del almacen que hay en esta API.
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header       
+      name: key  
+  security:
+  - ApiKeyAuth: []  
+paths:
+  /tabla:
+    post:
+      tags:
+        - Tienda
+      summary: Crearemos la tabla en nuestra base de datos.
+      security:
+        - ApiKeyAuth: []
+          responses:
+            '200':
+              description: OK (Autentificacion Realizada)
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Tabla creada
+        '404':
+          description: Página no encontrada
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Página no encontrada
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Error interno del servidor
+                
+    delete:
+      tags:
+        - Tienda
+      summary: Eliminaremos la tabla de nuestra base de datos.
+      security:
+        - ApiKeyAuth: []
+          responses:
+            '200':
+              description: OK (Autentificacion Realizada)
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Tabla eliminada
+        '204':
+          description: Sin contenido
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Sin contenido
+        '404':
+          description: Página no encontrada
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Página no encontrada
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Error interno del servidor
+  /producto:
+    get:
+      tags:
+        - Tienda
+      summary: Accederemos a ver los productos que hay en la tabla.
+      security:
+        - ApiKeyAuth: []
+          responses:
+            '200':
+              description: OK (Autentificacion Realizada)
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Nombre del producto
+                    example: Barra de pan
+                  Id:
+                    type: number
+                    description: Id
+                    example: 1
+                  description:
+                    type: string
+                    description: Descripcion
+                    example: "Barra de pan artesana"
+                  precio:
+                    type: number
+                    description: precio
+                    example: 1.50€
+                  unidades:
+                    type: number
+                    description: unidades
+                    example: 3
+                  stock:
+                    type: number
+                    description: disponibilidad
+                    example: Si   
+                  ventas:
+                    type: number
+                    description: disponibilidad
+                    example: 0  
+        '404':
+          description: Página no encontrada
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Página no encontrada
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Error interno del servidor
+    post:
+      tags:
+        - Tienda
+      summary: Crearemos el producto en la tabla.
+      security:
+        - ApiKeyAuth: []
+          responses:
+            '200':
+              description: OK (Autentificacion Realizada)
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Producto creado
+        '404':
+          description: Página no encontrada
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Página no encontrada
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Error interno del servidor
+    delete:
+      tags:
+        - Tienda
+      summary: Eliminaremos el producto de la tabla.
+      security:
+        - ApiKeyAuth: []
+          responses:
+            '200':
+              description: OK (Autentificacion Realizada)
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Producto eliminado
+        '204':
+          description: Sin contenido
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Sin contenido
+        '404':
+          description: Página no encontrada
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Página no encontrada
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Error interno del servidor
+  /producto/{id}:
+    get:
+      tags:
+        - Tienda
+      summary: Accederemos a ver un producto con un id determinado.
+      security:
+        - ApiKeyAuth: []
+          responses:
+            '200':
+              description: OK (Autentificacion Realizada)
+      parameters:
+        - name: id
+          in: path
+          description: Id del producto
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Nombre del producto
+                    example: Barra de pan
+                  Id:
+                    type: number
+                    description: Id
+                    example: 1
+                  description:
+                    type: string
+                    description: Descripcion
+                    example: "Barra de pan artesana"
+                  precio:
+                    type: number
+                    description: precio
+                    example: 1.50€
+                  unidades:
+                    type: number
+                    description: unidades
+                    example: 3
+                  stock:
+                    type: number
+                    description: disponibilidad
+                    example: Si   
+                  ventas:
+                    type: number
+                    description: disponibilidad
+                    example: 0  
+        '404':
+          description: Página no encontrada
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Página no encontrada
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Error interno del servidor                
+  /incrementar-producto/<id>/<uds>:
+    put:
+      tags:
+        - Tienda
+      summary: Incrementaremos las unidades del producto que hay en la tabla .
+      security:
+        - ApiKeyAuth: []
+          responses:
+            '200':
+              description: OK (Autentificacion Realizada)        
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Nombre del producto
+                    example: Barra de pan
+                  Id:
+                    type: number
+                    description: Id
+                    example: 1
+                  description:
+                    type: string
+                    description: Descripcion
+                    example: "Barra de pan artesana"
+                  precio:
+                    type: number
+                    description: precio
+                    example: 1.50€
+                  unidades:
+                    type: number
+                    description: unidades
+                    example: 4
+                  stock:
+                    type: number
+                    description: disponibilidad
+                    example: Si 
+                  ventas:
+                    type: number
+                    description: disponibilidad
+                    example: 0  
+        '201':
+          description: Creado
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Creado
+        '204':
+          description: Sin contenido
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Sin contenido
+        '404':
+          description: Página no encontrada
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Página no encontrada
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Error interno del servidor
+  /decrementar-producto/<id>/<uds>:
+    put:
+      tags:
+        - Tienda
+      summary: Decrementaremos las unidades del producto que hay en la tabla en uno.
+      security:
+        - ApiKeyAuth: []
+          responses:
+            '200':
+              description: OK (Autentificacion Realizada)
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Nombre del producto
+                    example: Barra de pan
+                  Id:
+                    type: number
+                    description: Id
+                    example: 1
+                  description:
+                    type: string
+                    description: Descripcion
+                    example: "Barra de pan artesana"
+                  precio:
+                    type: number
+                    description: precio
+                    example: 1.50€
+                  unidades:
+                    type: number
+                    description: unidades
+                    example: 2
+                  stock:
+                    type: number
+                    description: disponibilidad
+                    example: Si 
+                  ventas:
+                    type: number
+                    description: disponibilidad
+                    example: 0
+        '201':
+          description: Creado
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Creado
+        '204':
+          description: Sin contenido
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Sin contenido
+        '404':
+          description: Página no encontrada
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Página no encontrada
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Error interno del servidor
+                
+  /venta-producto/<id>/<uds>:
+    put:
+      tags:
+        - Tienda
+      summary: Ruta para la venta de un producto
+      security:
+        - ApiKeyAuth: []
+          responses:
+            '200':
+              description: OK (Autentificacion Realizada)
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Nombre del producto
+                    example: Barra de pan
+                  Id:
+                    type: number
+                    description: Id
+                    example: 1
+                  description:
+                    type: string
+                    description: Descripcion
+                    example: "Barra de pan artesana"
+                  precio:
+                    type: number
+                    description: precio
+                    example: 1.50€
+                  unidades:
+                    type: number
+                    description: unidades
+                    example: 2
+                  stock:
+                    type: number
+                    description: disponibilidad
+                    example: Si 
+                  ventas:
+                    type: number
+                    description: disponibilidad
+                    example: 0
+                  
+        '201':
+          description: Creado
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Creado
+        '204':
+          description: Sin contenido
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Sin contenido
+        '404':
+          description: Página no encontrada
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Página no encontrada
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Error interno del servidor            
+
+/solicitar-almacen/<id>/<uds>:
+    put:
+      tags:
+        - Tienda
+      summary: Ruta para solicitar unidades al almacen
+      security:
+        - ApiKeyAuth: []
+          responses:
+            '200':
+              description: OK (Autentificacion Realizada)
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Nombre del producto
+                    example: Barra de pan
+                  Id:
+                    type: number
+                    description: Id
+                    example: 1
+                  description:
+                    type: string
+                    description: Descripcion
+                    example: "Barra de pan artesana"
+                  precio:
+                    type: number
+                    description: precio
+                    example: 1.50€
+                  unidades:
+                    type: number
+                    description: unidades
+                    example: 2
+                  stock:
+                    type: number
+                    description: disponibilidad
+                    example: Si 
+                  ventas:
+                    type: number
+                    description: disponibilidad
+                    example: 0
+                  
+        '201':
+          description: Creado
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Creado
+        '204':
+          description: Sin contenido
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Sin contenido
+        '404':
+          description: Página no encontrada
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Página no encontrada
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Error interno del servidor   
