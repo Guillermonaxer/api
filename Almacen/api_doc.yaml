@@ -13,11 +13,10 @@ tags:
     description: Se detallan los métodos y recursos del almacen que hay en esta API.
 components:
   securitySchemes:
-    ApiKeyAuth:        # arbitrary name for the security scheme
+    ApiKeyAuth:
       type: apiKey
-      in: header       # can be "header", "query" or "cookie"
-      name: key  # name of the header, query parameter or cookie
-# 2) Apply the API key globally to all operations
+      in: header       
+      name: key  
   security:
   - ApiKeyAuth: []  
 paths:
