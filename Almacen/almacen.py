@@ -196,7 +196,7 @@ def leer_producto_determinado(id):
 
 @app.route('/services/spec')
 def get_spec():
-    return send_from_directory(app.root_path, "../Documentacion/api_doc.yaml")
+    return send_from_directory(app.root_path, "api_doc.yaml")
 
 SWAGGER_URL = '/api/docs'
 API_URL = '/services/spec' 
