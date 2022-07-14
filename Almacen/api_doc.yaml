@@ -11,12 +11,26 @@ servers:
 tags:
   - name: Almacen
     description: Se detallan los métodos y recursos del almacen que hay en esta API.
+components:
+  securitySchemes:
+    ApiKeyAuth:        # arbitrary name for the security scheme
+      type: apiKey
+      in: header       # can be "header", "query" or "cookie"
+      name: key  # name of the header, query parameter or cookie
+# 2) Apply the API key globally to all operations
+  security:
+  - ApiKeyAuth: []  
 paths:
   /tabla:
     post:
       tags:
         - Almacen
       summary: Crearemos la tabla en nuestra base de datos.
+      security:
+        - ApiKeyAuth: []
+          responses:
+            '200':
+              description: OK (Autentificacion Realizada)
       responses:
         '200':
           description: OK
@@ -43,6 +57,11 @@ paths:
       tags:
         - Almacen
       summary: Eliminaremos la tabla de nuestra base de datos.
+      security:
+        - ApiKeyAuth: []
+          responses:
+            '200':
+              description: OK (Autentificacion Realizada)
       responses:
         '200':
           description: OK
@@ -77,6 +96,11 @@ paths:
       tags:
         - Almacen
       summary: Accederemos a ver los productos que hay en la tabla.
+      security:
+        - ApiKeyAuth: []
+          responses:
+            '200':
+              description: OK (Autentificacion Realizada)
       responses:
         '200':
           description: OK
@@ -127,6 +151,11 @@ paths:
       tags:
         - Almacen
       summary: Crearemos el producto en la tabla.
+      security:
+        - ApiKeyAuth: []
+          responses:
+            '200':
+              description: OK (Autentificacion Realizada)
       responses:
         '200':
           description: OK
@@ -153,6 +182,11 @@ paths:
       tags:
         - Almacen
       summary: Eliminaremos el producto de la tabla.
+      security:
+        - ApiKeyAuth: []
+          responses:
+            '200':
+              description: OK (Autentificacion Realizada)
       responses:
         '200':
           description: OK
@@ -182,11 +216,77 @@ paths:
               schema:
                 type: string
                 example: Error interno del servidor
+  /producto/{id}:
+    get:
+      tags:
+        - Almacen
+      summary: Accederemos a ver un producto con un id determinado.
+      security:
+        - ApiKeyAuth: []
+          responses:
+            '200':
+              description: OK (Autentificacion Realizada)
+      parameters:
+        - name: id
+          in: path
+          description: Id del producto
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Nombre del producto
+                    example: Barra de pan
+                  Id:
+                    type: number
+                    description: Id
+                    example: 1
+                  description:
+                    type: string
+                    description: Descripcion
+                    example: "Barra de pan artesana"
+                  precio:
+                    type: number
+                    description: precio
+                    example: 1.50€
+                  unidades:
+                    type: number
+                    description: unidades
+                    example: 3
+                  stock:
+                    type: number
+                    description: disponibilidad
+                    example: Si      
+        '404':
+          description: Página no encontrada
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Página no encontrada
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Error interno del servidor                
   /incrementar-producto:
     put:
       tags:
         - Almacen
-      summary: Incrementaremos las unidades del producto que hay en la tabla en uno.        
+      summary: Incrementaremos las unidades del producto que hay en la tabla en uno.
+      security:
+        - ApiKeyAuth: []
+          responses:
+            '200':
+              description: OK (Autentificacion Realizada)        
       responses:
         '200':
           description: OK
@@ -252,6 +352,11 @@ paths:
       tags:
         - Almacen
       summary: Decrementaremos las unidades del producto que hay en la tabla en uno.
+      security:
+        - ApiKeyAuth: []
+          responses:
+            '200':
+              description: OK (Autentificacion Realizada)
       responses:
         '200':
           description: OK
