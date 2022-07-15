@@ -65,17 +65,29 @@ def solicitar_permisos(key):
     
 # Se crea la ruta y la funcion para crear la tabla en la base de datos  
 
-@app.route('/api/almacen/tabla', methods=['POST'])
+@app.route('/api/tienda/tabla', methods=['POST'])
 def crear_tabla():
-    key = request.headers.get('key')
-    if solicitar_permisos(key) == True:
-        cur = con.cursor()
-        cur.execute('''CREATE TABLE if not exists producto('name','id','description','precio','unidades','stock')''')
+    key=request.headers.get('key')
+    if solicitar_permisos(key) ==True:
+     try:   
+        cur= con.cursor()
+    
+        cur.execute('''CREATE TABLE if not exists producto(
+        id integer primary key autoincrement,
+        name text,
+        description text,
+        precio real,
+        unidades integer,
+        stock blob
+        )''')
         con.commit()
         return "Tabla creada"
+     except:
+      print("Table Failed")
+      return False
     else:
-        error = 'No autorizado'
-        return jsonify(error)
+        error='No autorizado'
+        return jsonify(error)  
 
 
 # Se crea la ruta y la funcion para eliminar la tabla de la base de datos
@@ -94,17 +106,24 @@ def eliminar_tabla():
 
 # Se crea el producto en la tabla
 
-@app.route('/api/almacen/producto', methods=['POST'])
+@app.route('/api/tienda/producto', methods=['POST'])
 def crear_producto():
-    key = request.headers.get('key')
-    if solicitar_permisos(key) == True:
-        cur = con.cursor()
-        cur.execute("INSERT INTO producto VALUES ('Barra de pan', 1, 'Barra de pan artesana', '1.50€', 3, True)")
-        con.commit()
-        return "Producto creado"
+    key=request.headers.get('key')
+    if solicitar_permisos(key) ==True:
+     cur=con.cursor()
+     name = request.form['name'] 
+     descripcion = request.form['descripcion'] 
+     precio = request.form['precio'] 
+     unidades = request.form['unidades'] 
+     
+     
+     statement=("INSERT INTO producto VALUES (null,?, ?, ?, ?,'true')")
+     cur.execute(statement,[name, descripcion,precio,unidades])
+     con.commit()
+     return "Producto creado"
     else:
-        error = 'No autorizado'
-        return jsonify(error)  
+        error='No autorizado'
+        return jsonify(error)   
  
 
 # Se crea la ruta para incrementar una unidades del producto
