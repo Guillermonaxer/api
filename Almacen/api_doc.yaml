@@ -15,10 +15,10 @@ components:
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
-      in: header       
-      name: key  
-  security:
-  - ApiKeyAuth: []  
+      in: header
+      name: Key 
+security:
+- ApiKeyAuth: []  
 paths:
   /tabla:
     post:
@@ -27,9 +27,6 @@ paths:
       summary: Crearemos la tabla en nuestra base de datos.
       security:
         - ApiKeyAuth: []
-          responses:
-            '200':
-              description: OK (Autentificacion Realizada)
       responses:
         '200':
           description: OK
@@ -58,9 +55,6 @@ paths:
       summary: Eliminaremos la tabla de nuestra base de datos.
       security:
         - ApiKeyAuth: []
-          responses:
-            '200':
-              description: OK (Autentificacion Realizada)
       responses:
         '200':
           description: OK
@@ -97,9 +91,6 @@ paths:
       summary: Accederemos a ver los productos que hay en la tabla.
       security:
         - ApiKeyAuth: []
-          responses:
-            '200':
-              description: OK (Autentificacion Realizada)
       responses:
         '200':
           description: OK
@@ -152,9 +143,6 @@ paths:
       summary: Crearemos el producto en la tabla.
       security:
         - ApiKeyAuth: []
-          responses:
-            '200':
-              description: OK (Autentificacion Realizada)
       responses:
         '200':
           description: OK
@@ -183,9 +171,6 @@ paths:
       summary: Eliminaremos el producto de la tabla.
       security:
         - ApiKeyAuth: []
-          responses:
-            '200':
-              description: OK (Autentificacion Realizada)
       responses:
         '200':
           description: OK
@@ -222,14 +207,15 @@ paths:
       summary: Accederemos a ver un producto con un id determinado.
       security:
         - ApiKeyAuth: []
-          responses:
-            '200':
-              description: OK (Autentificacion Realizada)
       parameters:
         - name: id
           in: path
           description: Id del producto
           required: true
+          schema:
+            type: integer
+            items:
+              type: number
       responses:
         '200':
           description: OK
@@ -283,9 +269,6 @@ paths:
       summary: Incrementaremos las unidades del producto que hay en la tabla en uno.
       security:
         - ApiKeyAuth: []
-          responses:
-            '200':
-              description: OK (Autentificacion Realizada)        
       responses:
         '200':
           description: OK
@@ -353,9 +336,6 @@ paths:
       summary: Decrementaremos las unidades del producto que hay en la tabla en uno.
       security:
         - ApiKeyAuth: []
-          responses:
-            '200':
-              description: OK (Autentificacion Realizada)
       responses:
         '200':
           description: OK

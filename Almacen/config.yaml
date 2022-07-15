@@ -1,6 +1,6 @@
 basedatos:
   consumidor_almacen: consumidor_pan
-  consumidor_almacen_api: e846e11f-0370-11ed-b945-74dfbfbabba7
+  consumidor_almacen_api: e27aaaf8-0418-11ed-b95d-74dfbfbabba7
   path: database/datos.db
 hosts:
   IP: localhost

@@ -129,19 +129,19 @@ def incrementar_producto():
 
 @app.route('/api/almacen/decrementar-producto/<uds>', methods=['PUT'])
 def decrementar_producto_uds(uds):
-    key=request.headers.get('key')
-    if solicitar_permisos(key) ==True:
-     cur=con.cursor()
-     uds=uds
-     cur.execute("UPDATE producto SET unidades = unidades -"+uds)
-     con.commit()
-     sentencia = "SELECT * FROM producto;"
-     cur.execute(sentencia)
-     titulo = "El producto se ha decrementado en"+" " +uds+ " "+"unidades"
-     stock = cur.fetchall()
-     return jsonify(titulo, stock)
+    key = request.headers.get('key')
+    if solicitar_permisos(key) == True:
+        cur = con.cursor()
+        uds = uds
+        cur.execute("UPDATE producto SET unidades = unidades -"+uds)
+        con.commit()
+        sentencia = "SELECT * FROM producto;"
+        cur.execute(sentencia)
+        titulo = "El producto se ha decrementado en"+" " +uds+ " "+"unidades"
+        stock = cur.fetchall()
+        return jsonify(titulo, stock)
     else:
-        error='No autorizado'
+        error = 'No autorizado'
         return jsonify(error)
     
 #rutas para incrementar tantas unidades como queramos
@@ -149,18 +149,18 @@ def decrementar_producto_uds(uds):
 @app.route('/api/almacen/incrementar-producto/<uds>', methods=['PUT'])
 def incrementar_producto_uds(uds):
     key=request.headers.get('key')
-    if solicitar_permisos(key) ==True:
-     cur=con.cursor()
-     uds=uds
-     cur.execute("UPDATE producto SET unidades = unidades +"+uds)
-     con.commit()
-     sentencia = "SELECT * FROM producto;"
-     cur.execute(sentencia)
-     titulo = "El producto se ha incrementado en"+" " +uds+ " "+"unidades"
-     stock = cur.fetchall()
-     return jsonify(titulo, stock)
+    if solicitar_permisos(key) == True:
+        cur = con.cursor()
+        uds = uds
+        cur.execute("UPDATE producto SET unidades = unidades +"+uds)
+        con.commit()
+        sentencia = "SELECT * FROM producto;"
+        cur.execute(sentencia)
+        titulo = "El producto se ha incrementado en"+" " +uds+ " "+"unidades"
+        stock = cur.fetchall()
+        return jsonify(titulo, stock)
     else:
-        error='No autorizado'
+        error = 'No autorizado'
         return jsonify(error)
 
 # Se crea la ruta y la funcion para decrementar las unidades del producto
