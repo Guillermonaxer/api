@@ -1,4 +1,5 @@
-from flask import Flask, jsonify,request
+from flask import Flask, jsonify,request, send_from_directory
+from flask_swagger_ui import get_swaggerui_blueprint
 import argparse
 from pandas import json_normalize
 from pyparsing import empty
@@ -268,7 +269,35 @@ def leer_producto_determinado(id):
       return jsonify(stock)
     else:
         error='No autorizado'
-        return jsonify(error)        
+        return jsonify(error)  
+
+
+# Se crea la ruta y la funcion para acceder a la documentacion de la API
+
+@app.route('/services/spec')
+def get_spec():
+    return send_from_directory(app.root_path, "api_doc_tienda.yaml")
+
+SWAGGER_URL = '/api/docs'
+API_URL = '/services/spec' 
+
+swaggerui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL,  # Swagger UI static files will be mapped to '{SWAGGER_URL}/dist/'
+    API_URL,
+    config={  # Swagger UI config overrides
+        'app_name': "Test application"
+    },
+    # oauth_config={  # OAuth config. See https://github.com/swagger-api/swagger-ui#oauth2-configuration .
+    #    'clientId': "your-client-id",
+    #    'clientSecret': "your-client-secret-if-required",
+    #    'realm': "your-realms",
+    #    'appName': "your-app-name",
+    #    'scopeSeparator': " ",
+    #    'additionalQueryStringParams': {'test': "hello"}
+    # }
+)
+
+app.register_blueprint(swaggerui_blueprint)      
     
 # Se ejecuta la aplicacion
 
