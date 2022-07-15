@@ -146,31 +146,33 @@ def incrementar_producto():
 
 #rutas para decrementar tantas unidades como queramos
 
-@app.route('/api/almacen/decrementar-producto/<uds>', methods=['PUT'])
-def decrementar_producto_uds(uds):
-    key = request.headers.get('key')
-    if solicitar_permisos(key) == True:
-        cur = con.cursor()
-        uds = uds
-        cur.execute("UPDATE producto SET unidades = unidades -"+uds)
-        con.commit()
-        sentencia = "SELECT * FROM producto;"
-        cur.execute(sentencia)
-        titulo = "El producto se ha decrementado en"+" " +uds+ " "+"unidades"
-        stock = cur.fetchall()
-        return jsonify(titulo, stock)
+@app.route('/api/almacen/decrementar-producto/<id>', methods=['PUT'])
+def decrementar_producto_uds(id):
+    key=request.headers.get('key')
+    if solicitar_permisos(key) ==True:
+     cur=con.cursor()
+     id=id
+     uds = request.form['unidades'] 
+     cur.execute("UPDATE producto_tienda SET unidades = unidades -"+uds+" where id="+id)
+     con.commit()
+     sentencia = "SELECT * FROM producto_tienda;"
+     cur.execute(sentencia)
+     titulo = "El producto se ha decrementado en"+" " +uds+ " "+"unidades"
+     stock = cur.fetchall()
+     return jsonify(titulo, stock)
     else:
-        error = 'No autorizado'
+        error='No autorizado'
         return jsonify(error)
     
 #rutas para incrementar tantas unidades como queramos
 
-@app.route('/api/almacen/incrementar-producto/<uds>', methods=['PUT'])
-def incrementar_producto_uds(uds):
+@app.route('/api/almacen/incrementar-producto/<id>', methods=['PUT'])
+def incrementar_producto_uds(id):
     key=request.headers.get('key')
     if solicitar_permisos(key) == True:
         cur = con.cursor()
-        uds = uds
+        id = id
+        uds = request.form['unidades'] 
         cur.execute("UPDATE producto SET unidades = unidades +"+uds)
         con.commit()
         sentencia = "SELECT * FROM producto;"
@@ -182,7 +184,7 @@ def incrementar_producto_uds(uds):
         error = 'No autorizado'
         return jsonify(error)
 
-# Se crea la ruta y la funcion para decrementar las unidades del producto
+# Se crea la ruta y la funcion para decrementar las unidades del producto en uno
 
 @app.route('/api/almacen/decrementar-producto', methods=['PUT'])
 def decrementar_producto():
@@ -201,7 +203,7 @@ def decrementar_producto():
         return jsonify(error)  
 
 
-# Se crea la ruta y la funcion para eliminar el producto de la tabla
+# Se crea la ruta y la funcion para eliminar el producto de la tabla en caso de que haya uno
     
 @app.route('/api/almacen/producto', methods=['DELETE'])
 def eliminar_producto():
@@ -215,8 +217,21 @@ def eliminar_producto():
         error = 'No autorizado'
         return jsonify(error)  
 
+    # Se crea la ruta y la funcion para eliminar un producto de la tabla en caso de que haya varios
+    
+@app.route('/api/almacen/producto/<id>', methods=['DELETE'])
+def eliminar_producto(id):
+    key = request.headers.get('key')
+    if solicitar_permisos(key) == True:
+        cur = con.cursor()
+        cur.execute("DELETE FROM producto"where id="+id)
+        con.commit
+        return "Producto eliminado"
+    else:
+        error = 'No autorizado'
+        return jsonify(error)
 
-# Se crea la ruta y la funcion para saber el stock del producto
+# Se crea la ruta y la funcion para saber el stock del producto en caso de que haya uno
 
 @app.route('/api/almacen/producto', methods=['GET'])
 def leer_producto():
@@ -231,6 +246,20 @@ def leer_producto():
         error = 'No autorizado'
         return jsonify(error)  
     
+ # Se crea la ruta y la funcion para saber el stock del producto en caso de que haya varios
+
+@app.route('/api/almacen/producto/<id>', methods=['GET'])
+def leer_producto(id):
+    key = request.headers.get('key')
+    if solicitar_permisos(key) == True:
+        cur = con.cursor()
+        sentencia = "SELECT * FROM producto;"where id="+id
+        cur.execute(sentencia)
+        stock = cur.fetchall()
+        return jsonify(stock)
+    else:
+        error = 'No autorizado'
+        return jsonify(error)                     
 
 # Se crea la ruta y la funcion para leer un id determinado de un producto
 
