@@ -1,8 +1,8 @@
 openapi: 3.0.2
 info:
   version: 1.0.0
-  title: Métodos de la API de Almacen
-  description: Se describen los métodos y que tipo de recursos nos ofrece en cada ruta de la API de Almacen.
+  title: Métodos de la API del Almacen
+  description: Se describen los métodos y que tipo de recursos nos ofrece en cada ruta de la API del Almacen.
 servers:
   - url: http://127.0.0.1:5000/api/almacen
   - url: http://localhost:5000/api/almacen
@@ -86,7 +86,7 @@ paths:
     get:
       tags:
         - Almacen
-      summary: Accederemos a ver los productos que hay en la tabla.
+      summary: Veremos todos los productos que hay en la tabla.
       security:
         - ApiKeyAuth: []
       responses:
@@ -138,7 +138,7 @@ paths:
     post:
       tags:
         - Almacen
-      summary: Crearemos el producto en la tabla.
+      summary: Crearemos un producto en la tabla.
       security:
         - ApiKeyAuth: []
       responses:
@@ -166,7 +166,7 @@ paths:
     delete:
       tags:
         - Almacen
-      summary: Eliminaremos el producto de la tabla.
+      summary: Eliminaremos todos los productos de la tabla.
       security:
         - ApiKeyAuth: []
       responses:
@@ -202,7 +202,7 @@ paths:
     get:
       tags:
         - Almacen
-      summary: Accederemos a ver un producto con un id determinado.
+      summary: Veremos el producto con un ID determinado.
       security:
         - ApiKeyAuth: []
       parameters:
@@ -245,7 +245,7 @@ paths:
                   stock:
                     type: number
                     description: disponibilidad
-                    example: Si      
+                    example: Si    
         '404':
           description: Página no encontrada
           content:
@@ -259,12 +259,56 @@ paths:
             application/json:
               schema:
                 type: string
-                example: Error interno del servidor                
+                example: Error interno del servidor 
+    delete:
+      tags:
+        - Almacen
+      summary: Eliminaremos un producto con un ID determinado.
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Id del producto
+          required: true
+          schema:
+            type: integer
+            items:
+              type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Producto eliminado
+        '204':
+          description: Sin contenido
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Sin contenido
+        '404':
+          description: Página no encontrada
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Página no encontrada
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Error interno del servidor               
   /incrementar-producto:
     put:
       tags:
         - Almacen
-      summary: Incrementaremos las unidades del producto que hay en la tabla en uno.
+      summary: Incrementaremos en uno todas las unidades de los productos.
       security:
         - ApiKeyAuth: []
       responses:
@@ -331,7 +375,7 @@ paths:
     put:
       tags:
         - Almacen
-      summary: Decrementaremos las unidades del producto que hay en la tabla en uno.
+      summary: Decrementaremos en uno todas las unidades de los productos.
       security:
         - ApiKeyAuth: []
       responses:
@@ -394,15 +438,15 @@ paths:
               schema:
                 type: string
                 example: Error interno del servidor
-  /incrementar-producto/{uds}:
+  /incrementar-producto/{id}:
     put:
       tags:
         - Almacen
-      summary: Incrementaremos las unidades que queramos del producto que hay en la tabla.
+      summary: Incrementaremos las unidades que queramos de un producto con un ID determinado.
       security:
         - ApiKeyAuth: []
       parameters:
-          - name: uds
+          - name: id
             in: path
             description: Unidades del producto
             required: true
@@ -470,15 +514,15 @@ paths:
               schema:
                 type: string
                 example: Error interno del servidor
-  /decrementar-producto/{uds}:
+  /decrementar-producto/{id}:
     put:
       tags:
         - Almacen
-      summary: Decrementaremos las unidades que queramos del producto que hay en la tabla.
+      summary: Incrementaremos las unidades que queramos de un producto con un ID determinado.
       security:
         - ApiKeyAuth: []
       parameters:
-          - name: uds
+          - name: id
             in: path
             description: Unidades del producto
             required: true
