@@ -4,8 +4,8 @@ info:
   title: Métodos de la API del Almacen
   description: Se describen los métodos y que tipo de recursos nos ofrece en cada ruta de la API del Almacen.
 servers:
-  - url: http://127.0.0.1:5000/api/almacen
   - url: http://localhost:5000/api/almacen
+  - url: http://127.0.0.1:5000/api/almacen
 tags:
   - name: Almacen
     description: Se detallan los métodos y recursos del almacen que hay en esta API.
@@ -14,7 +14,7 @@ components:
     ApiKeyAuth:
       type: apiKey
       in: header
-      name: Key 
+      name: consumidor_pan 
 security:
 - ApiKeyAuth: []  
 paths:
@@ -97,14 +97,14 @@ paths:
               schema:
                 type: object
                 properties:
-                  name:
-                    type: string
-                    description: Nombre del producto
-                    example: Barra de pan
                   Id:
                     type: number
                     description: Id
                     example: 1
+                  name:
+                    type: string
+                    description: Nombre del producto
+                    example: Barra de pan
                   description:
                     type: string
                     description: Descripcion
@@ -120,7 +120,7 @@ paths:
                   stock:
                     type: number
                     description: disponibilidad
-                    example: Si      
+                    example: true      
         '404':
           description: Página no encontrada
           content:
@@ -141,6 +141,25 @@ paths:
       summary: Crearemos un producto en la tabla.
       security:
         - ApiKeyAuth: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: 
+                - name
+                - descripcion
+                - precio
+                - unidades
+              properties:
+                name:
+                  type: string
+                descripcion:
+                  type: string
+                precio:
+                  type: string
+                unidades:
+                  type: integer
       responses:
         '200':
           description: OK
@@ -222,14 +241,14 @@ paths:
               schema:
                 type: object
                 properties:
-                  name:
-                    type: string
-                    description: Nombre del producto
-                    example: Barra de pan
                   Id:
                     type: number
                     description: Id
                     example: 1
+                  name:
+                    type: string
+                    description: Nombre del producto
+                    example: Barra de pan
                   description:
                     type: string
                     description: Descripcion
@@ -245,7 +264,7 @@ paths:
                   stock:
                     type: number
                     description: disponibilidad
-                    example: Si    
+                    example: true    
         '404':
           description: Página no encontrada
           content:
@@ -319,14 +338,14 @@ paths:
               schema:
                 type: object
                 properties:
-                  name:
-                    type: string
-                    description: Nombre del producto
-                    example: Barra de pan
                   Id:
                     type: number
                     description: Id
                     example: 1
+                  name:
+                    type: string
+                    description: Nombre del producto
+                    example: Barra de pan
                   description:
                     type: string
                     description: Descripcion
@@ -342,7 +361,7 @@ paths:
                   stock:
                     type: number
                     description: disponibilidad
-                    example: Si      
+                    example: true      
         '201':
           description: Creado
           content:
@@ -386,14 +405,14 @@ paths:
               schema:
                 type: object
                 properties:
-                  name:
-                    type: string
-                    description: Nombre del producto
-                    example: Barra de pan
                   Id:
                     type: number
                     description: Id
                     example: 1
+                  name:
+                    type: string
+                    description: Nombre del producto
+                    example: Barra de pan
                   description:
                     type: string
                     description: Descripcion
@@ -409,7 +428,7 @@ paths:
                   stock:
                     type: number
                     description: disponibilidad
-                    example: Si       
+                    example: true      
         '201':
           description: Creado
           content:
@@ -448,12 +467,22 @@ paths:
       parameters:
           - name: id
             in: path
-            description: Unidades del producto
+            description: ID del producto
             required: true
             schema:
               type: integer
               items:
                 type: number
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: 
+                - unidades
+              properties:
+                unidades:
+                  type: integer
       responses:
         '200':
           description: OK
@@ -462,14 +491,14 @@ paths:
               schema:
                 type: object
                 properties:
-                  name:
-                    type: string
-                    description: Nombre del producto
-                    example: Barra de pan
                   Id:
                     type: number
                     description: Id
                     example: 1
+                  name:
+                    type: string
+                    description: Nombre del producto
+                    example: Barra de pan
                   description:
                     type: string
                     description: Descripcion
@@ -485,7 +514,7 @@ paths:
                   stock:
                     type: number
                     description: disponibilidad
-                    example: Si      
+                    example: true      
         '201':
           description: Creado
           content:
@@ -524,12 +553,22 @@ paths:
       parameters:
           - name: id
             in: path
-            description: Unidades del producto
+            description: ID del producto
             required: true
             schema:
               type: integer
               items:
-                type: number
+                type: integer
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: 
+                - unidades
+              properties:
+                unidades:
+                  type: integer
       responses:
         '200':
           description: OK
@@ -538,14 +577,14 @@ paths:
               schema:
                 type: object
                 properties:
-                  name:
-                    type: string
-                    description: Nombre del producto
-                    example: Barra de pan
                   Id:
                     type: number
                     description: Id
                     example: 1
+                  name:
+                    type: string
+                    description: Nombre del producto
+                    example: Barra de pan
                   description:
                     type: string
                     description: Descripcion
@@ -561,7 +600,7 @@ paths:
                   stock:
                     type: number
                     description: disponibilidad
-                    example: Si      
+                    example: true     
         '201':
           description: Creado
           content:

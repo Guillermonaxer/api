@@ -240,7 +240,7 @@ def incrementar_producto_uds(id):
         con.commit()
         sentencia = "SELECT * FROM producto;"
         cur.execute(sentencia)
-        titulo = "El producto se ha incrementado en"+" " +uds+ " "+"unidades"
+        titulo = "El producto con el ID"+" "+id+" se ha incrementado en"+" " +uds+ " "+"unidades"
         stock = cur.fetchall()
         return jsonify(titulo, stock)
     else:
@@ -253,15 +253,15 @@ def incrementar_producto_uds(id):
 @app.route('/api/almacen/decrementar-producto/<id>', methods=['PUT'])
 def decrementar_producto_uds(id):
     key = request.headers.get(consumidor)
-    if solicitar_permisos(key) ==True:
+    if solicitar_permisos(key) == True:
         cur = con.cursor()
         id = id
         uds = request.form['unidades'] 
-        cur.execute("UPDATE producto_tienda SET unidades = unidades -"+uds+" where id="+id)
+        cur.execute("UPDATE producto SET unidades = unidades -"+uds+" where id="+id)
         con.commit()
-        sentencia = "SELECT * FROM producto_tienda;"
+        sentencia = "SELECT * FROM producto;"
         cur.execute(sentencia)
-        titulo = "El producto se ha decrementado en"+" " +uds+ " "+"unidades"
+        titulo = "El producto con el ID"+" "+id+" se ha decrementado en"+" " +uds+ " "+"unidades"
         stock = cur.fetchall()
         return jsonify(titulo, stock)
     else:
