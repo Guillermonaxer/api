@@ -175,7 +175,7 @@ def incrementar_producto_uds(id):
         cur = con.cursor()
         id = id
         uds = request.form['unidades'] 
-        cur.execute("UPDATE producto SET unidades = unidades +"+uds)
+        cur.execute("UPDATE producto SET unidades = unidades +"+uds+" where id="+id)
         con.commit()
         sentencia = "SELECT * FROM producto;"
         cur.execute(sentencia)
