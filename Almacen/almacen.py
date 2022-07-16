@@ -107,6 +107,22 @@ def eliminar_tabla():
         return jsonify(error)
 
 
+# Se crea la ruta y la funcion para ver todos los productos
+
+@app.route('/api/almacen/producto', methods=['GET'])
+def leer_producto():
+    key = request.headers.get(consumidor)
+    if solicitar_permisos(key) == True:
+        cur = con.cursor()
+        sentencia = "SELECT * FROM producto;"
+        cur.execute(sentencia)
+        stock = cur.fetchall()
+        return jsonify(stock)
+    else:
+        error = 'No autorizado'
+        return jsonify(error)  
+
+
 # Se crea el producto en la tabla
 
 @app.route('/api/almacen/producto', methods=['POST'])
@@ -128,6 +144,52 @@ def crear_producto():
         return jsonify(error)   
  
 
+# Se crea la ruta y la funcion para eliminar el producto de la tabla en caso de que haya uno
+    
+@app.route('/api/almacen/producto', methods=['DELETE'])
+def eliminar_producto():
+    key = request.headers.get(consumidor)
+    if solicitar_permisos(key) == True:
+        cur = con.cursor()
+        cur.execute("DELETE FROM producto")
+        con.commit
+        return "Producto eliminado"
+    else:
+        error = 'No autorizado'
+        return jsonify(error)
+
+
+# Se crea la ruta y la funcion para ver un producto con un ID determinado
+
+@app.route('/api/almacen/producto/<id>', methods=['GET'])
+def leer_producto_determinado(id):
+    key = request.headers.get(consumidor)
+    if solicitar_permisos(key) == True:
+        cur = con.cursor()
+        sentencia = "SELECT * FROM producto where id="+id
+        cur.execute(sentencia)
+        stock = cur.fetchone()
+        return jsonify(stock)
+    else:
+        error = 'No autorizado'
+        return jsonify(error) 
+
+
+# Se crea la ruta y la funcion para eliminar un producto con un ID determinado
+    
+@app.route('/api/almacen/producto/<id>', methods=['DELETE'])
+def eliminar_producto_id(id):
+    key = request.headers.get(consumidor)
+    if solicitar_permisos(key) == True:
+        cur = con.cursor()
+        cur.execute("DELETE FROM producto where id="+id)
+        con.commit
+        return "Producto eliminado"
+    else:
+        error = 'No autorizado'
+        return jsonify(error)
+
+
 # Se crea la ruta para incrementar en uno las unidades del producto
 
 @app.route('/api/almacen/incrementar-producto', methods=['PUT'])
@@ -146,27 +208,26 @@ def incrementar_producto():
         error='No autorizado'
         return jsonify(error)   
 
-# Se crea la ruta y la funcion para decrementar tantas unidades como queramos
+# Se crea la ruta y la funcion para decrementar las unidades del producto en uno
 
-@app.route('/api/almacen/decrementar-producto/<id>', methods=['PUT'])
-def decrementar_producto_uds(id):
+@app.route('/api/almacen/decrementar-producto', methods=['PUT'])
+def decrementar_producto():
     key = request.headers.get(consumidor)
-    if solicitar_permisos(key) ==True:
+    if solicitar_permisos(key) == True:
         cur = con.cursor()
-        id = id
-        uds = request.form['unidades'] 
-        cur.execute("UPDATE producto_tienda SET unidades = unidades -"+uds+" where id="+id)
+        cur.execute("UPDATE producto SET unidades = unidades - 1")
         con.commit()
-        sentencia = "SELECT * FROM producto_tienda;"
+        sentencia = "SELECT * FROM producto;"
         cur.execute(sentencia)
-        titulo = "El producto se ha decrementado en"+" " +uds+ " "+"unidades"
+        titulo = "El producto se ha decrementado en una unidad"
         stock = cur.fetchall()
         return jsonify(titulo, stock)
     else:
         error = 'No autorizado'
         return jsonify(error)
-    
-# Se crea la ruta y la funcion para incrementar tantas unidades como queramos
+
+
+# Se crea la ruta y la funcion para incrementar tantas unidades como queramos de un ID determinado
 
 @app.route('/api/almacen/incrementar-producto/<id>', methods=['PUT'])
 def incrementar_producto_uds(id):
@@ -186,99 +247,26 @@ def incrementar_producto_uds(id):
         error = 'No autorizado'
         return jsonify(error)
 
-# Se crea la ruta y la funcion para decrementar las unidades del producto en uno
 
-@app.route('/api/almacen/decrementar-producto', methods=['PUT'])
-def decrementar_producto():
+# Se crea la ruta y la funcion para decrementar tantas unidades como queramos de un ID determinado
+
+@app.route('/api/almacen/decrementar-producto/<id>', methods=['PUT'])
+def decrementar_producto_uds(id):
     key = request.headers.get(consumidor)
-    if solicitar_permisos(key) == True:
+    if solicitar_permisos(key) ==True:
         cur = con.cursor()
-        cur.execute("UPDATE producto SET unidades = unidades - 1")
+        id = id
+        uds = request.form['unidades'] 
+        cur.execute("UPDATE producto_tienda SET unidades = unidades -"+uds+" where id="+id)
         con.commit()
-        sentencia = "SELECT * FROM producto;"
+        sentencia = "SELECT * FROM producto_tienda;"
         cur.execute(sentencia)
-        titulo = "El producto se ha decrementado en una unidad"
+        titulo = "El producto se ha decrementado en"+" " +uds+ " "+"unidades"
         stock = cur.fetchall()
         return jsonify(titulo, stock)
     else:
         error = 'No autorizado'
-        return jsonify(error)  
-
-
-# Se crea la ruta y la funcion para eliminar el producto de la tabla en caso de que haya uno
-    
-@app.route('/api/almacen/producto', methods=['DELETE'])
-def eliminar_producto():
-    key = request.headers.get(consumidor)
-    if solicitar_permisos(key) == True:
-        cur = con.cursor()
-        cur.execute("DELETE FROM producto")
-        con.commit
-        return "Producto eliminado"
-    else:
-        error = 'No autorizado'
-        return jsonify(error)  
-
-
-# Se crea la ruta y la funcion para eliminar un producto de la tabla en caso de que haya varios
-    
-@app.route('/api/almacen/producto/<id>', methods=['DELETE'])
-def eliminar_producto_id(id):
-    key = request.headers.get(consumidor)
-    if solicitar_permisos(key) == True:
-        cur = con.cursor()
-        cur.execute("DELETE FROM producto where id="+id)
-        con.commit
-        return "Producto eliminado"
-    else:
-        error = 'No autorizado'
-        return jsonify(error)
-
-# Se crea la ruta y la funcion para saber el stock del producto en caso de que haya uno
-
-@app.route('/api/almacen/producto', methods=['GET'])
-def leer_producto():
-    key = request.headers.get(consumidor)
-    if solicitar_permisos(key) == True:
-        cur = con.cursor()
-        sentencia = "SELECT * FROM producto;"
-        cur.execute(sentencia)
-        stock = cur.fetchall()
-        return jsonify(stock)
-    else:
-        error = 'No autorizado'
-        return jsonify(error)  
-    
-
-# Se crea la ruta y la funcion para saber el stock del producto en caso de que haya varios
-
-@app.route('/api/almacen/producto/<id>', methods=['GET'])
-def leer_producto_id(id):
-    key = request.headers.get(consumidor)
-    if solicitar_permisos(key) == True:
-        cur = con.cursor()
-        sentencia = "SELECT * FROM producto where id="+id
-        cur.execute(sentencia)
-        stock = cur.fetchall()
-        return jsonify(stock)
-    else:
-        error = 'No autorizado'
-        return jsonify(error)                     
-
-# Se crea la ruta y la funcion para leer un id determinado de un producto
-
-@app.route('/api/almacen/producto/<id>', methods=['GET'])
-def leer_producto_determinado(id):
-    key = request.headers.get(consumidor)
-    if solicitar_permisos(key) == True:
-        cur = con.cursor()
-        sentencia = "SELECT * FROM producto where id="+id
-        cur.execute(sentencia)
-        stock = cur.fetchone()
-        return jsonify(stock)
-    else:
-        error = 'No autorizado'
-        return jsonify(error) 
+        return jsonify(error)                  
 
 
 # Se crea la ruta y la funcion para acceder a la documentacion de la API
