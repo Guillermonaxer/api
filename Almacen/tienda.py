@@ -65,39 +65,57 @@ def solicitar_permisos(key):
     
 # Se crea la tabla de la base de datos  
 
-@app.route('/api/tienda/crear-tabla', methods=['POST'])
+@app.route('/api/tienda/tabla', methods=['POST'])
 def crear_tabla():
-    key=request.headers.get('key')
-    if solicitar_permisos(key) ==True:
-     cur= con.cursor()
-     cur.execute('''CREATE TABLE if not exists producto_tienda('name','id','description','precio','unidades','stock','ventas')''')
-     con.commit()
-     return "Tabla creada"
+    key = request.headers.get(consumidor)
+    if solicitar_permisos(key) == True:
+     try:   
+        cur= con.cursor()
+        cur.execute('''CREATE TABLE if not exists producto_tienda(
+        id integer primary key autoincrement,
+        name text,
+        description text,
+        precio real,
+        unidades integer,
+        stock blob,
+        ventas integer
+        )''')
+        con.commit()
+        return "Tabla creada"
+     except:
+      print("Tabla no creada")
+      return False
     else:
         error='No autorizado'
-        return jsonify(error)  
+        return jsonify(error) 
 
 # Se crea el producto en la tabla
 
-@app.route('/api/tienda/crear-producto', methods=['POST'])
+@app.route('/api/tienda/producto', methods=['POST'])
 def crear_producto():
-    key=request.headers.get('key')
-    if solicitar_permisos(key) ==True:
-     cur=con.cursor()
-     cur.execute("INSERT INTO producto_tienda VALUES ('Barra de pan', 3, 'Barra de pan prueba', '1.50€', 3, True, 0)")
-     con.commit()
-     return "Producto creado"
+    key=request.headers.get(consumidor)
+    if solicitar_permisos(key) == True:
+        cur=con.cursor()
+        name = request.form['name'] 
+        descripcion = request.form['descripcion'] 
+        precio = request.form['precio'] 
+        unidades = request.form['unidades'] 
+
+        statement=("INSERT INTO producto_tienda VALUES (null,?, ?, ?, ?,'true','0')")
+        cur.execute(statement,[name, descripcion,precio,unidades])
+        con.commit()
+        return "Producto creado"
     else:
         error='No autorizado'
-        return jsonify(error)   
+        return jsonify(error)    
 
 # Se crea la ruta para solicitar las unidades del producto al almacen
 
-@app.route('/api/tienda/solicitar_almacen/<id>/<uds>', methods=['GET'])
-def incrementar_producto(id,uds):
+@app.route('/api/tienda/solicitar_almacen/<id>', methods=['GET'])
+def incrementar_producto(id):
      id=id
-     uds=uds
-     headers = {'key':args.key,'Content-type': 'application/json', 'charset': 'utf-8'}
+     uds = request.form['unidades'] 
+     headers = {'key':args.key}
      url = 'http://localhost:5000/api/almacen/leer-producto/'+id
      r = requests.get(url,headers=headers)
      response = (r.json())
@@ -106,12 +124,12 @@ def incrementar_producto(id,uds):
      else:
         unidades=(response[4])
         if int(unidades)>=int(uds):
-    
-          url1 = 'http://localhost:5000/api/almacen/decrementar-producto/'+id+"/"+uds
-          r1 = requests.put(url1,headers=headers)
+          data={'unidades':uds}
+          url1 = 'http://localhost:5000/api/almacen/decrementar-producto/'+id
+          r1 = requests.put(url1,headers=headers,data=data)
          
-          url2 = 'http://localhost:5000/api/tienda/decrementar-producto/'+id+"/"+uds
-          r2 = requests.put(url2,headers=headers)
+          url2 = 'http://localhost:5000/api/tienda/decrementar-producto/'+id
+          r2 = requests.put(url2,headers=headers,data=data)
 
           return jsonify(int(uds))
 
@@ -121,7 +139,7 @@ def incrementar_producto(id,uds):
 
       
 
-# Se crea la ruta para decrementar las unidades del producto
+# Se crea la ruta para decrementar una unidad del producto
 
 @app.route('/api/tienda/decrementar-producto', methods=['PUT'])
 def decrementar_producto():
@@ -139,12 +157,12 @@ def decrementar_producto():
         error='No autorizado'
         return jsonify(error)  
 
-@app.route('/api/tienda/decrementar-producto/<id>/<uds>', methods=['PUT'])
-def decrementar_producto_uds(id,uds):
+@app.route('/api/tienda/decrementar-producto/<id>', methods=['PUT'])
+def decrementar_producto_uds(id):
     key=request.headers.get('key')
     if solicitar_permisos(key) ==True:
      cur=con.cursor()
-     uds=uds
+     uds = request.form['unidades']
      cur.execute("UPDATE producto_tienda SET unidades = unidades -"+uds+" where id="+id)
      con.commit()
      sentencia = "SELECT * FROM producto_tienda;"
@@ -157,13 +175,13 @@ def decrementar_producto_uds(id,uds):
         return jsonify(error)
 
 
-@app.route('/api/tienda/incrementar-producto/<uds>', methods=['PUT'])
-def incrementar_producto_uds(uds):
+@app.route('/api/tienda/incrementar-producto/<id>', methods=['PUT'])
+def incrementar_producto_uds(id):
     key=request.headers.get('key')
     if solicitar_permisos(key) ==True:
      cur=con.cursor()
-     uds=uds
-     cur.execute("UPDATE producto_tienda SET unidades = unidades +"+uds)
+     uds = request.form['unidades']
+     cur.execute("UPDATE producto_tienda SET unidades = unidades -"+uds+" where id="+id)
      con.commit()
      sentencia = "SELECT * FROM producto_tienda;"
      cur.execute(sentencia)
@@ -177,12 +195,12 @@ def incrementar_producto_uds(uds):
     
 #ruta para modificar el precio de un producto    
 
-@app.route('/api/tienda/precio_producto/<id>/<precio>', methods=['PUT'])
+@app.route('/api/tienda/precio_producto/<id>', methods=['PUT'])
 def cambiar_precio(id,precio):
     key=request.headers.get('key')
     if solicitar_permisos(key) ==True:
      cur=con.cursor()
-     precio=precio
+     precio = request.form['precio']
      cur.execute("UPDATE producto_tienda SET precio ="+precio+" where id="+id )
      con.commit()
      sentencia = "SELECT * FROM producto_tienda;"
@@ -198,14 +216,14 @@ def cambiar_precio(id,precio):
 #ruta para venta
 
 
-@app.route('/api/tienda/venta_producto/<id>/<uds>', methods=['PUT'])
-def venta_producto(id,uds):
+@app.route('/api/tienda/venta_producto/<id>', methods=['PUT'])
+def venta_producto(id):
     id=id
     headers = {'key':args.key,'Content-type': 'application/json', 'charset': 'utf-8'}
     url = 'http://localhost:5000/api/tienda/leer-producto/'+id
     r = requests.get(url,headers=headers)
     response = (r.json())
-    uds=uds
+    uds = request.form['unidades']
     if response=='No autorizado':
        return jsonify('API key inválida')
     else:
@@ -227,35 +245,23 @@ def venta_producto(id,uds):
         else:
                error='No hay unidades en la tienda suficientes'
                return jsonify(error)
+           
 # Se crea la ruta para eliminar el producto
     
-@app.route('/api/tienda/eliminar-producto', methods=['DELETE'])
-def eliminar_producto():
+@app.route('/api/tienda/eliminar-producto/<id>', methods=['DELETE'])
+def eliminar_producto(id):
     key=request.headers.get('key')
     if solicitar_permisos(key) ==True:
      cur=con.cursor()
-     cur.execute("DROP TABLE producto_tienda")
+     cur.execute("DROP TABLE producto_tienda where id="+id)
      con.commit
      return "Producto eliminado"
     else:
         error='No autorizado'
         return jsonify(error)  
 
-# Se crea la ruta para saber el stock del producto
-
-@app.route('/api/tienda/leer-producto', methods=['GET'])
-def leer_producto():
-    key=request.headers.get('key')
-    if solicitar_permisos(key) ==True:
-      cur = con.cursor()
-      sentencia = "SELECT * FROM producto_tienda;"
-      cur.execute(sentencia)
-      stock = cur.fetchall()
-    
-      return jsonify(stock)
-    else:
-        error='No autorizado'
-        return jsonify(error)  
+# Se crea la ruta para saber la información de un producto
+ 
 
 @app.route('/api/tienda/leer-producto/<id>', methods=['GET'])
 def leer_producto_determinado(id):
