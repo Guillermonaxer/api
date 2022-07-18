@@ -126,7 +126,7 @@ def incrementar_producto(id):
           url1 = 'http://localhost:5000/api/almacen/decrementar-producto/'+id
           r1 = requests.put(url1,headers=headers,data=data)
          
-          url2 = 'http://localhost:5000/api/tienda/decrementar-producto/'+id
+          url2 = 'http://localhost:5000/api/tienda/incrementar-producto/'+id
           r2 = requests.put(url2,headers=headers,data=data)
 
           return jsonify(int(uds))
@@ -199,7 +199,7 @@ def cambiar_precio(id,precio):
     if solicitar_permisos(key) ==True:
      cur=con.cursor()
      precio = request.form['precio']
-     cur.execute("UPDATE producto_tienda SET precio = precio "+precio+" where id="+id )
+     cur.execute("UPDATE producto_tienda SET precio ="+precio+" where id="+id )
      con.commit()
      sentencia = "SELECT * FROM producto_tienda;"
      cur.execute(sentencia)
