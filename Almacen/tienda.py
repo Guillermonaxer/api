@@ -109,7 +109,7 @@ def crear_producto():
 
 # Se crea la ruta para solicitar las unidades del producto al almacen
 
-@app.route('/api/tienda/solicitar_almacen/<id>', methods=['GET'])
+@app.route('/api/tienda/solicitar_almacen/<id>', methods=['PUT'])
 def incrementar_producto(id):
      id=id
      uds = request.form['unidades'] 

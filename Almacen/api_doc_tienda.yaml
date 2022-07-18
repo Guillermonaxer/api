@@ -6,6 +6,8 @@ info:
 servers:
   - url: http://localhost:5000/api/tienda
   - url: http://127.0.0.1:5000/api/tienda
+  - url: http://localhost:8000/api/tienda
+  - url: http://127.0.0.1:8000/api/tienda
 tags:
   - name: Tienda
     description: Se detallan los métodos y recursos del almacen que hay en esta API.
@@ -96,7 +98,7 @@ paths:
                 type: string
                 example: Error interno del servidor
   /solicitar_almacen/{id}:
-    get:
+    put:
       tags:
         - Tienda
       summary: Solicitamos al almacen varias unidades de un articulo determinado
@@ -111,6 +113,16 @@ paths:
             type: integer
             items:
               type: number
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: 
+                - unidades
+              properties:
+                unidades:
+                  type: integer
       responses:
         '200':
           description: OK
