@@ -129,7 +129,7 @@ def incrementar_producto(id):
           url2 = 'http://localhost:5000/api/tienda/incrementar-producto/'+id
           r2 = requests.put(url2,headers=headers,data=data)
 
-          return jsonify(int(uds))
+          return jsonify('Se han solicitado' + ' ' + uds + ' ' +'unidades')
 
  
         else:
