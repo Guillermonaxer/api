@@ -61,7 +61,9 @@ def solicitar_permisos(key):
         validacion=True
     return validacion
     
+# Se crea la variable para llamar al consumidor de la API
 
+consumidor = config['basedatos']['consumidor_almacen']
     
 # Se crea la tabla de la base de datos  
 
@@ -116,7 +118,7 @@ def incrementar_producto(id):
      id=id
      uds = request.form['unidades'] 
      headers = {'key':args.key}
-     url = 'http://localhost:5000/api/almacen/leer-producto/'+id
+     url = 'http://localhost:5000/api/almacen/producto/'+id
      r = requests.get(url,headers=headers)
      response = (r.json())
      if response=='No autorizado':
@@ -253,7 +255,7 @@ def eliminar_producto(id):
     key=request.headers.get('key')
     if solicitar_permisos(key) ==True:
      cur=con.cursor()
-     cur.execute("DROP TABLE producto_tienda where id="+id)
+     cur.execute("DELETE FROM producto_tienda where id="+id)
      con.commit
      return "Producto eliminado"
     else:
