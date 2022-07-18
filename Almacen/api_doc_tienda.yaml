@@ -129,36 +129,8 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  Id:
-                    type: number
-                    description: Id
-                    example: 1
-                  name:
-                    type: string
-                    description: Nombre del producto
-                    example: Barra de pan
-                  description:
-                    type: string
-                    description: Descripcion
-                    example: "Barra de pan artesana"
-                  precio:
-                    type: number
-                    description: precio
-                    example: 1.50€
-                  unidades:
-                    type: number
-                    description: unidades
-                    example: 3
-                  stock:
-                    type: number
-                    description: disponibilidad
-                    example: true      
-                  ventas:
-                    type: number
-                    description: disponibilidad
-                    example: 1      
+                type: string
+                example: "Se han solicitado X unidades"
         '404':
           description: Página no encontrada
           content:
@@ -546,36 +518,8 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  Id:
-                    type: number
-                    description: Id
-                    example: 1
-                  name:
-                    type: string
-                    description: Nombre del producto
-                    example: Barra de pan
-                  description:
-                    type: string
-                    description: Descripcion
-                    example: "Barra de pan artesana"
-                  precio:
-                    type: number
-                    description: precio
-                    example: 1.50€
-                  unidades:
-                    type: number
-                    description: unidades
-                    example: 3
-                  stock:
-                    type: number
-                    description: disponibilidad
-                    example: true      
-                  ventas:
-                    type: number
-                    description: disponibilidad
-                    example: 1        
+                type: string
+                example: "Venta realizada con exito"       
         '201':
           description: Creado
           content:
@@ -627,7 +571,7 @@ paths:
             application/json:
               schema:
                 type: string
-                example: Tabla eliminada
+                example: Producto eliminado
         '204':
           description: Sin contenido
           content:
@@ -714,4 +658,4 @@ paths:
             application/json:
               schema:
                 type: string
-                example: Error interno del servidor 
+                example: Error interno del servidor
