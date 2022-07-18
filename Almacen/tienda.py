@@ -194,7 +194,7 @@ def incrementar_producto_uds(id):
 #ruta para modificar el precio de un producto    
 
 @app.route('/api/tienda/precio_producto/<id>', methods=['PUT'])
-def cambiar_precio(id,precio):
+def cambiar_precio(id):
     key=request.headers.get(consumidor)
     if solicitar_permisos(key) ==True:
      cur=con.cursor()
