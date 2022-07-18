@@ -119,14 +119,14 @@ paths:
               schema:
                 type: object
                 properties:
-                  name:
-                    type: string
-                    description: Nombre del producto
-                    example: Barra de pan
                   Id:
                     type: number
                     description: Id
                     example: 1
+                  name:
+                    type: string
+                    description: Nombre del producto
+                    example: Barra de pan
                   description:
                     type: string
                     description: Descripcion
@@ -142,7 +142,11 @@ paths:
                   stock:
                     type: number
                     description: disponibilidad
-                    example: Si      
+                    example: true      
+                  ventas:
+                    type: number
+                    description: disponibilidad
+                    example: 1      
         '404':
           description: Página no encontrada
           content:
@@ -172,14 +176,14 @@ paths:
               schema:
                 type: object
                 properties:
-                  name:
-                    type: string
-                    description: Nombre del producto
-                    example: Barra de pan
                   Id:
                     type: number
                     description: Id
                     example: 1
+                  name:
+                    type: string
+                    description: Nombre del producto
+                    example: Barra de pan
                   description:
                     type: string
                     description: Descripcion
@@ -195,7 +199,11 @@ paths:
                   stock:
                     type: number
                     description: disponibilidad
-                    example: Si       
+                    example: true
+                  ventas:
+                    type: number
+                    description: disponibilidad
+                    example: 1
         '201':
           description: Creado
           content:
@@ -258,14 +266,14 @@ paths:
               schema:
                 type: object
                 properties:
-                  name:
-                    type: string
-                    description: Nombre del producto
-                    example: Barra de pan
                   Id:
                     type: number
                     description: Id
                     example: 1
+                  name:
+                    type: string
+                    description: Nombre del producto
+                    example: Barra de pan
                   description:
                     type: string
                     description: Descripcion
@@ -277,11 +285,15 @@ paths:
                   unidades:
                     type: number
                     description: unidades
-                    example: 2
+                    example: 3
                   stock:
                     type: number
                     description: disponibilidad
-                    example: Si       
+                    example: true      
+                  ventas:
+                    type: number
+                    description: disponibilidad
+                    example: 1       
         '201':
           description: Creado
           content:
@@ -344,14 +356,14 @@ paths:
               schema:
                 type: object
                 properties:
-                  name:
-                    type: string
-                    description: Nombre del producto
-                    example: Barra de pan
                   Id:
                     type: number
                     description: Id
                     example: 1
+                  name:
+                    type: string
+                    description: Nombre del producto
+                    example: Barra de pan
                   description:
                     type: string
                     description: Descripcion
@@ -363,11 +375,15 @@ paths:
                   unidades:
                     type: number
                     description: unidades
-                    example: 2
+                    example: 3
                   stock:
                     type: number
                     description: disponibilidad
-                    example: Si       
+                    example: true      
+                  ventas:
+                    type: number
+                    description: disponibilidad
+                    example: 1       
         '201':
           description: Creado
           content:
@@ -430,14 +446,14 @@ paths:
               schema:
                 type: object
                 properties:
-                  name:
-                    type: string
-                    description: Nombre del producto
-                    example: Barra de pan
                   Id:
                     type: number
                     description: Id
                     example: 1
+                  name:
+                    type: string
+                    description: Nombre del producto
+                    example: Barra de pan
                   description:
                     type: string
                     description: Descripcion
@@ -453,7 +469,11 @@ paths:
                   stock:
                     type: number
                     description: disponibilidad
-                    example: Si       
+                    example: true       
+                  ventas:
+                    type: number
+                    description: ventas
+                    example: 1       
         '201':
           description: Creado
           content:
@@ -516,14 +536,14 @@ paths:
               schema:
                 type: object
                 properties:
-                  name:
-                    type: string
-                    description: Nombre del producto
-                    example: Barra de pan
                   Id:
                     type: number
                     description: Id
                     example: 1
+                  name:
+                    type: string
+                    description: Nombre del producto
+                    example: Barra de pan
                   description:
                     type: string
                     description: Descripcion
@@ -535,11 +555,15 @@ paths:
                   unidades:
                     type: number
                     description: unidades
-                    example: 2
+                    example: 3
                   stock:
                     type: number
                     description: disponibilidad
-                    example: Si       
+                    example: true      
+                  ventas:
+                    type: number
+                    description: disponibilidad
+                    example: 1        
         '201':
           description: Creado
           content:
@@ -637,14 +661,14 @@ paths:
               schema:
                 type: object
                 properties:
-                  name:
-                    type: string
-                    description: Nombre del producto
-                    example: Barra de pan
                   Id:
                     type: number
                     description: Id
                     example: 1
+                  name:
+                    type: string
+                    description: Nombre del producto
+                    example: Barra de pan
                   description:
                     type: string
                     description: Descripcion
@@ -660,7 +684,11 @@ paths:
                   stock:
                     type: number
                     description: disponibilidad
-                    example: Si      
+                    example: true      
+                  ventas:
+                    type: number
+                    description: disponibilidad
+                    example: 1      
         '404':
           description: Página no encontrada
           content:
