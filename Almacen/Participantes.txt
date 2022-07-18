@@ -1,0 +1,15 @@
+Distribucion de tareas:
+
+Juan Contreras Robles
+- almacen.py
+- api_doc.yaml
+- config.yaml
+- coleccion llamadas postman almacen
+- database
+
+Guillermo Martin Guevara
+- tienda.py
+- api_doc_tienda.yaml
+- config.yaml
+- coleccion llamadas postman tienda
+- database
