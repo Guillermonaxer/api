@@ -148,7 +148,7 @@ def decrementar_producto():
      con.commit()
      sentencia = "SELECT * FROM producto_tienda;"
      cur.execute(sentencia)
-     titulo = "El producto se ha decrementado en una unidad"
+     titulo = "Los productos se han decrementado en una unidad"
      stock = cur.fetchall()
      return jsonify(titulo, stock)
     else:

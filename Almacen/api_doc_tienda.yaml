@@ -2,10 +2,10 @@ openapi: 3.0.2
 info:
   version: 1.0.0
   title: Métodos de la API de tienda
-  description: Se describen los métodos y que tipo de recursos nos ofrece en cada ruta de la API de Almacen.
+  description: Se describen los métodos y que tipo de recursos nos ofrece en cada ruta de la API de Tienda.
 servers:
-  - url: http://127.0.0.1:5000/api/tienda
   - url: http://localhost:5000/api/tienda
+  - url: http://127.0.0.1:5000/api/tienda
 tags:
   - name: Tienda
     description: Se detallan los métodos y recursos del almacen que hay en esta API.
@@ -13,12 +13,12 @@ components:
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
-      in: header       
-      name: key  
-  security:
-  - ApiKeyAuth: []  
+      in: header
+      name: consumidor_pan 
+security:
+- ApiKeyAuth: [] 
 paths:
-  /crear-tabla:
+  /tabla:
     post:
       tags:
           - Tienda
@@ -47,13 +47,32 @@ paths:
               schema:
                 type: string
                 example: Error interno del servidor
-  /crear-producto:
+  /producto:
     post:
       tags:
-          - Tienda
-      summary: Crearemos el producto en nuestra base de datos.
+        - Tienda
+      summary: Crearemos un producto en la tabla.
       security:
         - ApiKeyAuth: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: 
+                - name
+                - descripcion
+                - precio
+                - unidades
+              properties:
+                name:
+                  type: string
+                descripcion:
+                  type: string
+                precio:
+                  type: string
+                unidades:
+                  type: integer
       responses:
         '200':
           description: OK
@@ -61,7 +80,7 @@ paths:
             application/json:
               schema:
                 type: string
-                example: Producto creada
+                example: Producto creado
         '404':
           description: Página no encontrada
           content:
@@ -76,7 +95,7 @@ paths:
               schema:
                 type: string
                 example: Error interno del servidor
-  /solicitar_almacen/{id}/{uds}:
+  /solicitar_almacen/{id}:
     get:
       tags:
         - Tienda
@@ -87,14 +106,6 @@ paths:
         - name: id
           in: path
           description: Id del producto
-          required: true
-          schema:
-            type: integer
-            items:
-              type: number
-        - name: uds
-          in: path
-          description: Unidades del producto
           required: true
           schema:
             type: integer
@@ -150,7 +161,7 @@ paths:
     put:
       tags:
         - Tienda
-      summary: Decrementaremos las unidades del producto que hay en la tabla en uno.
+      summary: Decrementaremos las unidades de todos los productos que hay en la tabla en uno.
       security:
         - ApiKeyAuth: []
       responses:
@@ -213,11 +224,11 @@ paths:
               schema:
                 type: string
                 example: Error interno del servidor
-  /decrementar-producto/{id}/{uds}:
+  /decrementar-producto/{id}:
     put:
       tags:
         - Tienda
-      summary: Decrementaremos las unidades que queramos de un producto determinado.
+      summary: Decrementaremos las unidades que queramos de un producto con un ID determinado.
       security:
         - ApiKeyAuth: []
       parameters:
@@ -229,14 +240,16 @@ paths:
             type: integer
             items:
               type: number
-        - name: uds
-          in: path
-          description: Unidades del producto
-          required: true
-          schema:
-            type: integer
-            items:
-              type: number
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: 
+                - unidades
+              properties:
+                unidades:
+                  type: integer
       responses:
         '200':
           description: OK
@@ -297,15 +310,15 @@ paths:
               schema:
                 type: string
                 example: Error interno del servidor
-  /incrementar-producto/{uds}:
+  /incrementar-producto/{id}:
     put:
       tags:
         - Tienda
-      summary: Incrementaremos las unidades que queramos del producto que hay en la tabla.
+      summary: Incrementaremos las unidades que queramos de un producto con un ID determinado.
       security:
         - ApiKeyAuth: []
       parameters:
-        - name: uds
+        - name: id
           in: path
           description: Unidades del producto
           required: true
@@ -313,6 +326,16 @@ paths:
             type: integer
             items:
               type: number
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: 
+                - unidades
+              properties:
+                unidades:
+                  type: integer
       responses:
         '200':
           description: OK
@@ -373,11 +396,11 @@ paths:
               schema:
                 type: string
                 example: Error interno del servidor
-  /precio-producto/{id}/{precio}:
+  /precio_producto/{id}:
     put:
       tags:
         - Tienda
-      summary: Modificaremos el precio de un producto determinado.
+      summary: Modificaremos el precio de un producto con un ID determinado.
       security:
         - ApiKeyAuth: []
       parameters:
@@ -389,14 +412,16 @@ paths:
             type: integer
             items:
               type: number
-        - name: precio
-          in: path
-          description: Unidades del producto
-          required: true
-          schema:
-            type: integer
-            items:
-              type: number
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: 
+                - precio
+              properties:
+                precio:
+                  type: integer
       responses:
         '200':
           description: OK
@@ -457,11 +482,11 @@ paths:
               schema:
                 type: string
                 example: Error interno del servidor
-  /venta-producto/{id}/{uds}:
+  /venta_producto/{id}:
     put:
       tags:
         - Tienda
-      summary: Modificaremos las unidades vendidas de un producto determinado.
+      summary: Modificaremos las unidades vendidas de un producto con un ID determinado.
       security:
         - ApiKeyAuth: []
       parameters:
@@ -473,14 +498,16 @@ paths:
             type: integer
             items:
               type: number
-        - name: uds
-          in: path
-          description: Unidades del producto
-          required: true
-          schema:
-            type: integer
-            items:
-              type: number
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: 
+                - unidades
+              properties:
+                unidades:
+                  type: integer
       responses:
         '200':
           description: OK
@@ -541,13 +568,22 @@ paths:
               schema:
                 type: string
                 example: Error interno del servidor
-  /eliminar-producto:
+  /eliminar-producto/{id}:
     delete:
       tags:
         - Tienda
-      summary: Eliminaremos la tabla de nuestra base de datos.
+      summary: Eliminaremos un producto con un ID determinado.
       security:
         - ApiKeyAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Id del producto
+          required: true
+          schema:
+            type: integer
+            items:
+              type: number
       responses:
         '200':
           description: OK
@@ -577,64 +613,11 @@ paths:
               schema:
                 type: string
                 example: Error interno del servidor
-  /leer-producto:
-    get:
-      tags:
-        - Tienda
-      summary: Accederemos a ver los productos que hay en la tabla.
-      security:
-        - ApiKeyAuth: []
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    description: Nombre del producto
-                    example: Barra de pan
-                  Id:
-                    type: number
-                    description: Id
-                    example: 1
-                  description:
-                    type: string
-                    description: Descripcion
-                    example: "Barra de pan artesana"
-                  precio:
-                    type: number
-                    description: precio
-                    example: 1.50€
-                  unidades:
-                    type: number
-                    description: unidades
-                    example: 3
-                  stock:
-                    type: number
-                    description: disponibilidad
-                    example: Si      
-        '404':
-          description: Página no encontrada
-          content:
-            application/json:
-              schema:
-                type: string
-                example: Página no encontrada
-        '500':
-          description: Error interno del servidor
-          content:
-            application/json:
-              schema:
-                type: string
-                example: Error interno del servidor
   /leer-producto/{id}:
     get:
       tags:
         - Tienda
-      summary: Accederemos a ver el producto con un ID determinado.
+      summary: Veremos un producto con un ID determinado.
       security:
         - ApiKeyAuth: []
       parameters:
@@ -691,4 +674,4 @@ paths:
             application/json:
               schema:
                 type: string
-                example: Error interno del servidor   
+                example: Error interno del servidor 

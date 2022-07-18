@@ -86,8 +86,8 @@ def crear_tabla():
         con.commit()
         return "Tabla creada"
      except:
-      print("Tabla no creada")
-      return False
+        print("Tabla no creada")
+        return False
     else:
         error='No autorizado'
         return jsonify(error)  
@@ -201,7 +201,7 @@ def incrementar_producto():
         con.commit()
         sentencia = "SELECT * FROM producto;"
         cur.execute(sentencia)
-        titulo = "El producto se ha incrementado en una unidad"
+        titulo = "Los productos se han incrementado en una unidad"
         stock = cur.fetchall()
         return jsonify(titulo, stock)
     else:
@@ -219,7 +219,7 @@ def decrementar_producto():
         con.commit()
         sentencia = "SELECT * FROM producto;"
         cur.execute(sentencia)
-        titulo = "El producto se ha decrementado en una unidad"
+        titulo = "Los productos se han decrementado en una unidad"
         stock = cur.fetchall()
         return jsonify(titulo, stock)
     else:
