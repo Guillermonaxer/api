@@ -23,10 +23,6 @@ with open('config.yaml', 'r') as f:
     config['basedatos']['consumidor_almacen_api']=str(uuid.uuid1())
     print(config)
 
-# Se escriben las modificaciones anteriores con el id añadido
-
-
-
 # Se especifican argumentos
 
 parser = argparse.ArgumentParser(description="Parametros para ejecutar la aplicacion")
@@ -145,7 +141,7 @@ def incrementar_producto(id):
 
 @app.route('/api/tienda/decrementar-producto', methods=['PUT'])
 def decrementar_producto():
-    key=request.headers.get('key')
+    key=request.headers.get(consumidor)
     if solicitar_permisos(key) ==True:
      cur=con.cursor()
      cur.execute("UPDATE producto_tienda SET unidades = unidades - 1")
@@ -161,7 +157,7 @@ def decrementar_producto():
 
 @app.route('/api/tienda/decrementar-producto/<id>', methods=['PUT'])
 def decrementar_producto_uds(id):
-    key=request.headers.get('key')
+    key=request.headers.get(consumidor)
     if solicitar_permisos(key) ==True:
      cur=con.cursor()
      uds = request.form['unidades']
@@ -179,11 +175,11 @@ def decrementar_producto_uds(id):
 
 @app.route('/api/tienda/incrementar-producto/<id>', methods=['PUT'])
 def incrementar_producto_uds(id):
-    key=request.headers.get('key')
+    key=request.headers.get(consumidor)
     if solicitar_permisos(key) ==True:
      cur=con.cursor()
      uds = request.form['unidades']
-     cur.execute("UPDATE producto_tienda SET unidades = unidades -"+uds+" where id="+id)
+     cur.execute("UPDATE producto_tienda SET unidades = unidades +"+uds+" where id="+id)
      con.commit()
      sentencia = "SELECT * FROM producto_tienda;"
      cur.execute(sentencia)
@@ -199,11 +195,11 @@ def incrementar_producto_uds(id):
 
 @app.route('/api/tienda/precio_producto/<id>', methods=['PUT'])
 def cambiar_precio(id,precio):
-    key=request.headers.get('key')
+    key=request.headers.get(consumidor)
     if solicitar_permisos(key) ==True:
      cur=con.cursor()
      precio = request.form['precio']
-     cur.execute("UPDATE producto_tienda SET precio ="+precio+" where id="+id )
+     cur.execute("UPDATE producto_tienda SET precio = precio "+precio+" where id="+id )
      con.commit()
      sentencia = "SELECT * FROM producto_tienda;"
      cur.execute(sentencia)
@@ -252,7 +248,7 @@ def venta_producto(id):
     
 @app.route('/api/tienda/eliminar-producto/<id>', methods=['DELETE'])
 def eliminar_producto(id):
-    key=request.headers.get('key')
+    key=request.headers.get(consumidor)
     if solicitar_permisos(key) ==True:
      cur=con.cursor()
      cur.execute("DELETE FROM producto_tienda where id="+id)
@@ -267,7 +263,7 @@ def eliminar_producto(id):
 
 @app.route('/api/tienda/leer-producto/<id>', methods=['GET'])
 def leer_producto_determinado(id):
-    key=request.headers.get('key')
+    key=request.headers.get(consumidor)
     if solicitar_permisos(key) ==True:
       cur = con.cursor()
       sentencia = "SELECT*FROM producto_tienda where id="+id
