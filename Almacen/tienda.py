@@ -306,4 +306,4 @@ app.register_blueprint(swaggerui_blueprint)
 # Se ejecuta la aplicacion
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host=args.servidor,port=args.puerto)
