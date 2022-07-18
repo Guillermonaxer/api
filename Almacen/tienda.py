@@ -113,7 +113,7 @@ def crear_producto():
 def incrementar_producto(id):
      id=id
      uds = request.form['unidades'] 
-     headers = {'key':args.key}
+     headers = {consumidor: args.key}
      url = 'http://localhost:5000/api/almacen/producto/'+id
      r = requests.get(url,headers=headers)
      response = (r.json())
@@ -217,7 +217,7 @@ def cambiar_precio(id,precio):
 @app.route('/api/tienda/venta_producto/<id>', methods=['PUT'])
 def venta_producto(id):
     id=id
-    headers = {'key':args.key,'Content-type': 'application/json', 'charset': 'utf-8'}
+    headers = {consumidor: args.key,'Content-type': 'application/json', 'charset': 'utf-8'}
     url = 'http://localhost:5000/api/tienda/leer-producto/'+id
     r = requests.get(url,headers=headers)
     response = (r.json())
@@ -236,7 +236,7 @@ def venta_producto(id):
               r2 = requests.put(url2,headers=headers)
               cur=con.cursor()
               precio=precio
-              cur.execute("UPDATE producto_tienda SET ventas = ventas + 1")
+              cur.execute("UPDATE producto_tienda SET ventas = ventas + 1 where id="+id)
               con.commit()
 
               return jsonify('venta realizada con éxito')
